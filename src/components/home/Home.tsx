@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import allDivisas from "../../lib/jsons/allDivisas.json";
+import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 
 export default function Home() {
   interface Divisa {
@@ -131,6 +132,8 @@ export default function Home() {
           Generar ticket
         </button>
       </section>
+      <ExchangeChart />
+
     </div>
   );
 }
