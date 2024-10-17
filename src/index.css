@@ -1,3 +1,36 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Definir variables de color */
+:root {
+  --bg-color: #ffffff; /* Color de fondo para el tema claro */
+  --text-color: #000000; /* Color de texto para el tema claro */
+  --primary-color: #1e3a8a; /* Color principal para el tema claro */
+  --bg-card: #f5f5f5; /* Color de fondo para las tarjetas */
+}
+
+.dark {
+  --bg-color: #1e1e1e; /* Color de fondo para el tema oscuro */
+  --text-color: #f5f5f5; /* Color de texto para el tema oscuro */
+  --primary-color: #3b82f6; /* Color principal para el tema oscuro */
+  --bg-card: #333333; /* Color de fondo para las tarjetas */
+}
+
+/* Usar las variables en las clases de Tailwind */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.bg-card {
+  background-color: var(--bg-card);
+}

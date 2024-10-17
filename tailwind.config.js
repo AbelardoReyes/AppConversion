@@ -3,6 +3,7 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      colors: {},
       screens: {
         sm: "320px",
         md: "744px",
@@ -11,5 +12,6 @@ export default {
       },
     },
   },
+  darkMode: "class", // or 'media' or 'class'
   plugins: [],
 };
