@@ -1,115 +1,139 @@
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent
-} from "@/components/ui/chart.tsx";
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { useEffect, useMemo, useState } from "react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
 import { CircleDollarSign } from "lucide-react";
 
-const charData = [
-  {
-    date: "2021-01-01",
-    MXN: 18.21,
-  },
-  {
-    date: "2021-01-02",
-    MXN: 18.25,
-  },
-  {
-    date: "2021-01-03",
-    MXN: 18.28,
-  },
-  {
-    date: "2021-01-04",
-    MXN: 18.30,
-  },
-  {
-    date: "2021-01-05",
-    MXN: 18.35,
-  },
-  {
-    date: "2021-01-06",
-    MXN: 18.40,
-  },
-  {
-    date: "2021-01-07",
-    MXN: 18.45,
-  },
-  {
-    date: "2021-01-08",
-    MXN: 18.50,
-  },
-  {
-    date: "2021-01-09",
-    MXN: 18.55,
-  },
-  {
-    date: "2021-01-10",
-    MXN: 18.60,
-  },
-  {
-    date: "2021-01-11",
-    MXN: 18.65,
-  },
-  {
-    date: "2021-01-12",
-    MXN: 18.70,
-  },
-  {
-    date: "2021-01-13",
-    MXN: 18.75,
-  },
-  {
-    date: "2021-01-14",
-    MXN: 18.80,
-  },
-  {
-    date: "2021-01-15",
-    MXN: 18.85,
-  },
-  {
-    date: "2021-01-16",
-    MXN: 18.90,
-  }
-]
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Exchange } from "@/types/exchange";
+import { addExchangeToHistory, getExchangeHistory } from "@/lib/store/history";
 
-const charConfig= {
+const chartConfig = {
+  views: {
+    label: "Exchange Rate"
+  },
   MXN: {
     label: "MXN",
-    icon: CircleDollarSign,
-    color: "#2563eb",
+    color: "hsl(var(--chart-1))",
+    icon: CircleDollarSign
   }
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export default function ExchangeChart() {
-  return (
-    <ChartContainer config={charConfig} className="min-h-[200px] w-full">
-      <BarChart accessibilityLayer data={charData}>
-        <CartesianGrid vertical={false} />
-        <ChartTooltip content={<ChartTooltipContent />} />
-        <YAxis
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => new Intl.NumberFormat("es-MX", {
-            style: "currency",
-            currency: "MXN"
-          }).format(value)}
-        />
-        <XAxis
-          dataKey="date"
-          tickLine={false}
-          tickMargin={10}
-          axisLine={false}
-          tickFormatter={(value) => new Date(value).toLocaleDateString()}
-        />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Bar dataKey="MXN" fill="var(--color-MXN)" radius={4} />
-      </BarChart>
+  const [chartData, setChartData] = useState<Exchange[]>([]);
 
-    </ChartContainer>
-  )
+  useEffect(() => {
+    const fetchExchangeHistory = async () => {
+      const data = await getExchangeHistory("MXN");
+      setChartData(data);
+    };
+    fetchExchangeHistory();
+  }, []);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      addExchangeToHistory("MXN", {
+        date: new Date().toISOString(),
+        value: Math.random() * 100
+      }).then(() => {
+        console.log("Added new exchange to history");
+        getExchangeHistory("MXN").then((data) => {
+          setChartData(data);
+        });
+      });
+    }, 10000); // 10 seconds
+    return () => clearTimeout(timer);
+  }, []);
+
+  const total = useMemo(
+    () => chartData.reduce((acc, curr) => acc + curr.value, 0),
+    [chartData]
+  );
+
+  return (
+    <Card>
+      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+          <CardTitle>MXN Exchange Rate</CardTitle>
+          <CardDescription>
+            Showing exchange rates for the last period
+          </CardDescription>
+        </div>
+        <div className="flex">
+          <div
+            className="flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-left sm:border-l sm:border-t-0 sm:px-8 sm:py-6">
+            <span className="text-xs text-muted-foreground">
+              {chartConfig.MXN.label}
+            </span>
+            <span className="text-lg font-bold leading-none sm:text-3xl">
+              {total.toLocaleString()}
+            </span>
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent className="px-2 sm:p-6">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[250px] w-full"
+        >
+          <LineChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 12,
+              right: 12
+            }}
+          >
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              minTickGap={32}
+              tickFormatter={(value) => {
+                const date = new Date(value);
+                return date.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric"
+                });
+              }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) =>
+                new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN"
+                }).format(value)
+              }
+            />
+            <ChartTooltip
+              content={
+                <ChartTooltipContent
+                  className="w-[150px]"
+                  nameKey="views"
+                  labelFormatter={(value) => {
+                    return new Date(value).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric"
+                    });
+                  }}
+                />
+              }
+            />
+            <Line
+              dataKey="value"
+              type="monotone"
+              stroke={`var(--color-MXN)`}
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
+  );
 }
