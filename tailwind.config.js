@@ -3,6 +3,7 @@ export default {
     darkMode: ["class"],
     content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
+	darkMode: "class",
   	extend: {
   		screens: {
   			sm: '320px',

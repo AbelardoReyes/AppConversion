@@ -1,67 +1,104 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Params, useParams } from "react-router-dom";
+interface Divisa {
+  id: number;
+  symbol: string;
+  valueInDollar: number;
+  flag: string;
+}
 
 export default function InfoDivisa() {
   const [form, setForm] = useState({
-    name: "",
-    value: "",
+    symbol: "",
+    valueInDollar: "",
   });
-  const [disabled, setDisabled] = useState({
-    name: true,
-    value: true,
-  });
-  const handleDisabled = (name: keyof typeof disabled) => {
-    setDisabled({
-      ...disabled,
-      [name]: !disabled[name],
-    });
-  };
+  const [disabledButton, setDisabledButton] = useState(true);
+
+  const params = useParams<Params>();
+
+  useEffect(() => {
+    const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
+    const divisa = allDivisas.find(
+      (divisa: Divisa) => divisa.symbol === params.divisa,
+    );
+    if (divisa) {
+      setForm({
+        symbol: divisa.symbol,
+        valueInDollar: divisa.valueInDollar.toString(),
+      });
+    }
+  }, []);
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
+
+  const handleEditDivisa = () => {
+    console.log("Editando divisa", form);
+    // Editar los valores del json
+    const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
+    const index = allDivisas.findIndex(
+      (divisa: Divisa) => divisa.symbol === params.divisa,
+    );
+    allDivisas[index] = {
+      ...allDivisas[index],
+      symbol: form.symbol,
+      valueInDollar: form.valueInDollar,
+    };
+    localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
+  };
+
+  useEffect(() => {
+    if (form.symbol && form.valueInDollar) {
+      setDisabledButton(false);
+    } else {
+      setDisabledButton(true);
+    }
+  }, [form]);
   return (
     <section className="flex flex-col gap-3 sm:p-4 lg:px-[150px]">
       <div className="flex flex-col">
-        <h2>Nombre</h2>
+        <h2>Alias</h2>
         <div className="relative flex w-full items-center">
           <input
-            name="name"
-            value={form.name}
-            disabled={disabled.name}
+            name="symbol"
+            value={form.symbol}
             type="text"
-            className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none ${disabled.name ? "opacity-50" : ""} `}
+            className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
             onChange={handleOnChange}
           />
-          <button
+          {/* <button
             className="absolute right-5"
             onClick={() => handleDisabled("name")}
           >
             ✍🏿
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="flex flex-col">
-        <h2>Valor</h2>
+        <h2>Valor en dolar</h2>
         <div className="relative flex w-full items-center">
           <input
-            name="value"
-            value={form.value}
-            disabled={disabled.value}
-            type="text"
-            className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none ${disabled.value ? "opacity-50" : ""} `}
+            name="valueInDollar"
+            value={form.valueInDollar}
+            type="number"
+            className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
             onChange={handleOnChange}
           />
-          <button
+          {/* <button
             className="absolute right-5"
             onClick={() => handleDisabled("value")}
           >
             ✍🏿
-          </button>
+          </button> */}
         </div>
       </div>
-      <button className="mt-2 w-full rounded-xl bg-blue-500 p-2 text-white hover:bg-blue-600">
+      <button
+        className={`mt-2 w-full rounded-xl bg-blue-500 p-2 text-white hover:bg-blue-600 ${disabledButton ? "opacity-70" : ""} `}
+        onClick={handleEditDivisa}
+      >
         Guardar
       </button>
     </section>

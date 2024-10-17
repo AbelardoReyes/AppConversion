@@ -5,10 +5,8 @@ import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 export default function Home() {
   interface Divisa {
     id: number;
-    name: string;
     symbol: string;
-    country: string;
-    valueInDolar: number;
+    valueInDollar: number;
     flag: string;
   }
 
@@ -17,21 +15,27 @@ export default function Home() {
   const [selectedFrom, setSelectedFrom] = React.useState<Divisa | null>(null);
   const [selectedTo, setSelectedTo] = React.useState<Divisa | null>(null);
 
+  const handleGetDivisas = () => {
+    const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
+    console.log("allDivisas obtenidas de localStorage:", allDivisas);
+    setDivisas(allDivisas);
+    setSelectedFrom(allDivisas[0]);
+    setSelectedTo(allDivisas[1]);
+  };
+
   useEffect(() => {
+    console.log(
+      "LocalStorage antes de obtener divisas:",
+      localStorage.getItem("allDivisas"),
+    );
     handleGetDivisas();
   }, []);
-
-  const handleGetDivisas = () => {
-    setDivisas(allDivisas);
-    setSelectedFrom(allDivisas[0]); // Peso Mexicano
-    setSelectedTo(allDivisas[1]); // Dólar Americano
-  };
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const montoEnPesos = Number(e.target.value);
     if (!selectedFrom || !selectedTo) return;
-    const montoEnDolares = montoEnPesos / selectedFrom.valueInDolar;
-    const montoConvertido = montoEnDolares * selectedTo.valueInDolar;
+    const montoEnDolares = montoEnPesos / selectedFrom.valueInDollar;
+    const montoConvertido = montoEnDolares * selectedTo.valueInDollar;
     setResult(montoConvertido);
   };
 
@@ -58,23 +62,25 @@ export default function Home() {
               {selectedFrom
                 ? `1 ${selectedFrom.symbol}`
                 : "Selecciona una moneda"}{" "}
-              =
-              {selectedFrom && selectedTo
-                ? ` ${selectedTo.valueInDolar / selectedFrom.valueInDolar} ${selectedTo.symbol}`
-                : " Selecciona una moneda"}
+              ={/**limita las decimales */}
+              {selectedTo
+                ? ` ${(1 * selectedTo.valueInDollar).toFixed(2)} ${
+                    selectedTo.symbol
+                  }`
+                : "Selecciona una moneda"}
             </p>
           </section>
 
           <section className="flex h-[200px] flex-row items-center justify-between gap-3">
             <div className="flex h-full w-full flex-col items-center gap-3 px-3 shadow-xl">
               <select
-                className="w-full"
+                className="w-full text-black"
                 onChange={handleFromCurrencyChange}
                 value={selectedFrom?.symbol}
               >
                 {divisas.map((divisa) => (
                   <option key={divisa.id} value={divisa.symbol}>
-                    {divisa.name} ({divisa.symbol})
+                    ({divisa.symbol})
                   </option>
                 ))}
               </select>
@@ -82,13 +88,13 @@ export default function Home() {
               <img
                 className="h-[100px] w-full object-contain"
                 src={selectedFrom?.flag}
-                alt={`Bandera de ${selectedFrom?.country}`}
+                alt={`Bandera de ${selectedFrom?.symbol}`}
               />
 
-              <button className="w-full rounded-md border border-gray-500 p-2 text-black">
+              <button className="w-full rounded-md border border-gray-500 p-2">
                 <input
                   type="number"
-                  className="w-full bg-transparent"
+                  className="w-full bg-transparent focus:outline-none"
                   placeholder={`Monto ${selectedFrom?.symbol}`}
                   onChange={handleOnChange}
                 />
@@ -97,13 +103,13 @@ export default function Home() {
             =
             <div className="flex h-full w-full flex-col items-center gap-3 px-3 shadow-xl">
               <select
-                className="w-full"
+                className="w-full text-black"
                 onChange={handleToCurrencyChange}
                 value={selectedTo?.symbol}
               >
                 {divisas.map((divisa) => (
                   <option key={divisa.id} value={divisa.symbol}>
-                    {divisa.name} ({divisa.symbol})
+                    ({divisa.symbol})
                   </option>
                 ))}
               </select>
@@ -111,10 +117,10 @@ export default function Home() {
               <img
                 className="h-[100px] w-full object-contain"
                 src={selectedTo?.flag}
-                alt={`Bandera de ${selectedTo?.country}`}
+                alt={`Bandera de ${selectedTo?.symbol}`}
               />
 
-              <button className="w-full rounded-md border border-gray-500 p-2 text-black">
+              <button className="w-full rounded-md border border-gray-500 p-2">
                 {result.toFixed(2)} {selectedTo?.symbol}
               </button>
             </div>
