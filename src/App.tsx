@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Divisas from "./components/divisas/Divisas";
 import Home from "./components/home/Home";
 import Ajustes from "./components/ajustes/Ajustes";
@@ -35,7 +35,8 @@ export default function App() {
           <Route path="/divisas/edit/:divisa" element={<EditDivisa />} />
           <Route path="/ajustes" element={<Ajustes />} />
         </Routes>
-      </div>{" "}
+      </div>
+      {" "}
       {hidden ? (
         <></>
       ) : (

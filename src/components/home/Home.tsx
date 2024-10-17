@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import allDivisas from "../../lib/jsons/allDivisas.json";
 import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 
 export default function Home() {
@@ -26,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     console.log(
       "LocalStorage antes de obtener divisas:",
-      localStorage.getItem("allDivisas"),
+      localStorage.getItem("allDivisas")
     );
     handleGetDivisas();
   }, []);
@@ -40,7 +39,7 @@ export default function Home() {
   };
 
   const handleFromCurrencyChange = (
-    e: React.ChangeEvent<HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const selected = divisas.find((divisa) => divisa.symbol === e.target.value);
     setSelectedFrom(selected || null);
@@ -65,8 +64,8 @@ export default function Home() {
               ={/**limita las decimales */}
               {selectedTo
                 ? ` ${(1 * selectedTo.valueInDollar).toFixed(2)} ${
-                    selectedTo.symbol
-                  }`
+                  selectedTo.symbol
+                }`
                 : "Selecciona una moneda"}
             </p>
           </section>
