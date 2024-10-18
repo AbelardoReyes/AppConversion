@@ -15,7 +15,7 @@ export default function Splash() {
         App de divisas
       </h2> */}
       <img
-        className="h-[140px] w-3/4 rounded-lg"
+        className="lg:h-[250px] sm:h-[140px] w-3/4 rounded-lg"
         src={`/${OneFlag.flag}`}
         alt="bandera"
       ></img>

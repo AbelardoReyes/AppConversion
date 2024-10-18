@@ -7,6 +7,8 @@ interface Divisa {
   symbol: string;
   valueInDollar: number;
   flag: string;
+  isEditing: boolean;
+  currencyPrincipal: boolean;
 }
 interface banderas {
   id: number;
@@ -17,6 +19,8 @@ export default function NewDivisa() {
     symbol: "",
     valueInDollar: "",
     flag: oneFlag.flag,
+    currencyPrincipal: false,
+    isEditing: true,
   });
   useEffect(() => {
     //habilitar el boton cuando los campos esten llenos
@@ -120,8 +124,14 @@ export default function NewDivisa() {
           <button
             className={`hover:bg-blue-600" mt-2 w-full rounded-xl bg-blue-500 p-2 text-white ${disabledButton ? "opacity-70" : "bg-blue-500"} `}
             onClick={handleSaveDivisa}
+            disabled={disabledButton}
           >
+            <Link
+              to={`/divisas`}
+              className="w-full text-center text-white"
+            >
             Guardar
+            </Link>
           </button>
         </div>
       </section>

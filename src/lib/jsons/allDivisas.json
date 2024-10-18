@@ -1,51 +1,59 @@
 [
-  {
-    "id": 1,
-    "symbol": "MXN",
-    "valueInDollar": 19,
-    "flag": "assets/banderas/Mexico.png",
-    "isEditing": false
-  },
+
   {
     "id": 2,
     "symbol": "USD",
     "valueInDollar": 1,
     "flag": "assets/banderas/UnitedStates.png",
-    "isEditing": false
+    "isEditing": false,
+    "currencyPrincipal": true
+  },
+  {
+    "id": 1,
+    "symbol": "MXN",
+    "valueInDollar": 19,
+    "flag": "assets/banderas/Mexico.png",
+    "isEditing": false,
+    "currencyPrincipal": false
   },
   {
     "id": 3,
     "symbol": "EUR",
     "valueInDollar": 0.85,
     "flag": "assets/banderas/FlagOfEurope.svg",
-    "isEditing": false
+    "isEditing": false,
+    "currencyPrincipal": false
   },
   {
     "id": 4,
     "symbol": "GBP",
     "valueInDollar": 0.72,
     "flag": "assets/banderas/UnitedKingdom.png",
-    "isEditing": false
+    "isEditing": false,
+    "currencyPrincipal": false
   },
   {
     "id": 5,
     "symbol": "JPY",
     "valueInDollar": 113.41,
     "flag": "assets/banderas/Japan.png",
-    "isEditing": false
+    "isEditing": false,
+    "currencyPrincipal": false
   },
   {
     "id": 6,
     "symbol": "CAD",
     "valueInDollar": 1.27,
     "flag": "assets/banderas/Canada.png",
-    "isEditing": false
+    "isEditing": false,
+    "currencyPrincipal": false
   },
   {
     "id": 7,
     "symbol": "ARS",
     "valueInDollar": 98.5,
     "flag": "assets/banderas/Argentina.png",
-    "isEditing": true
+    "isEditing": true,
+    "currencyPrincipal": false
   }
 ]

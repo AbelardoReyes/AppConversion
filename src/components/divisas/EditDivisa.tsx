@@ -22,16 +22,6 @@ export default function EditDivisa() {
     switch (activeTab) {
       case "info":
         return <InfoDivisa />;
-      case "history":
-        return (
-          <section className="flex w-full flex-col items-center gap-2">
-            <h2>history</h2>
-            <div className="flex w-full flex-col items-center gap-2">
-              <p>Fecha: 01/01/2021</p>
-              <p>Valor: $20,000</p>
-            </div>
-          </section>
-        );
     }
   };
 
@@ -77,13 +67,13 @@ export default function EditDivisa() {
           <span className="text-2xl">💱</span>
           <p className="text-xs">Información</p>
         </button>
-        <button
+        {/* <button
           className={`flex w-full cursor-pointer flex-col items-center ${activeTab === "history" ? "border-b border-blue-500 text-blue-500" : "text-gray-500"}`}
           onClick={() => handleSelectTab("history")}
         >
           <span className="text-2xl">🏠</span>
           <p className="text-xs">Historial</p>
-        </button>
+        </button> */}
       </section>
       <div className="item flex h-full w-full flex-col bg-card">
         {renderContent()}

@@ -8,6 +8,7 @@ export default function Divisas() {
     valueInDollar: number;
     flag: string;
     isEditing: boolean;
+    currencyPrincipal: boolean;
   }
   const [allDivisas, setAllDivisas] = React.useState([] as Divisa[]);
   React.useEffect(() => {
@@ -21,7 +22,9 @@ export default function Divisas() {
       <h2 className="mb-4 text-center text-2xl font-bold">Mis divisas</h2>
       <div className="flex flex-row items-center justify-between text-[20px] font-bold">
         <p>Moneda base</p>
-        <p>USD</p>
+        {allDivisas.map((divisa, index) => (
+          divisa.currencyPrincipal && <p key={index}>{divisa.symbol}</p>
+        ))}
       </div>
       <h2 className="">Divisas</h2>
       {allDivisas.map((divisa, index) => (

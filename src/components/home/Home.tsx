@@ -16,17 +16,12 @@ export default function Home() {
 
   const handleGetDivisas = () => {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
-    console.log("allDivisas obtenidas de localStorage:", allDivisas);
     setDivisas(allDivisas);
     setSelectedFrom(allDivisas[0]);
     setSelectedTo(allDivisas[1]);
   };
 
   useEffect(() => {
-    console.log(
-      "LocalStorage antes de obtener divisas:",
-      localStorage.getItem("allDivisas")
-    );
     handleGetDivisas();
   }, []);
 
@@ -56,19 +51,19 @@ export default function Home() {
 
       {divisas.length >= 2 ? (
         <>
-          <section className="flex flex-row items-center justify-center gap-5 text-[20px]">
-            <p>
-              {selectedFrom
-                ? `1 ${selectedFrom.symbol}`
-                : "Selecciona una moneda"}{" "}
-              ={/**limita las decimales */}
-              {selectedTo
-                ? ` ${(1 * selectedTo.valueInDollar).toFixed(2)} ${
-                  selectedTo.symbol
-                }`
-                : "Selecciona una moneda"}
-            </p>
-          </section>
+         <section className="flex flex-row items-center justify-center gap-5 text-[20px]">
+      <p>
+        {selectedFrom
+          ? `1 ${selectedFrom.symbol}`
+          : "Selecciona una moneda"}{" "}
+        =
+        {selectedFrom && selectedTo
+          ? ` ${(selectedTo.valueInDollar / selectedFrom.valueInDollar).toFixed(2)} ${
+              selectedTo.symbol
+            }`
+          : "Selecciona una moneda"}
+      </p>
+    </section>
 
           <section className="flex h-[200px] flex-row items-center justify-between gap-3">
             <div className="flex h-full w-full flex-col items-center gap-3 px-3 shadow-xl">
