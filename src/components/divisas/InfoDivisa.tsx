@@ -1,3 +1,4 @@
+import { addExchangeToHistory } from "@/lib/store/history";
 import { useEffect, useState } from "react";
 import { Params, useParams } from "react-router-dom";
 interface Divisa {
@@ -13,9 +14,7 @@ export default function InfoDivisa() {
     valueInDollar: "",
   });
   const [disabledButton, setDisabledButton] = useState(true);
-
   const params = useParams<Params>();
-
   useEffect(() => {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
     const divisa = allDivisas.find(
@@ -47,6 +46,10 @@ export default function InfoDivisa() {
       symbol: form.symbol,
       valueInDollar: form.valueInDollar,
     };
+    addExchangeToHistory(form.symbol, {
+      date: new Date().toISOString(),
+      value: parseFloat(form.valueInDollar),
+    });
     localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
   };
 

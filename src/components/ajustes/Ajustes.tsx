@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import allDivisas from "../../lib/jsons/allDivisas.json";
 
 export default function Ajustes() {
   const [activeTab, setActiveTab] = React.useState(false);
@@ -30,7 +31,7 @@ export default function Ajustes() {
     <section className="flex flex-col gap-4 sm:p-4 lg:px-[150px]">
       <h2 className="text-xl font-bold">Configuración</h2>
       <div className="flex w-full items-center justify-between">
-        <p className="text-lg">Cambiar Tema</p>
+        <h4 className="text-lg">Cambiar Tema</h4>
         {/* Switch */}
         <label className="relative inline-flex cursor-pointer items-center">
           <input
@@ -51,6 +52,29 @@ export default function Ajustes() {
             ></div>
           </div>
         </label>
+      </div>
+      <div className="flex flex-row items-center justify-between">
+        <h4 className="text-lg">Moneda Base</h4>
+        <select
+          className="rounded-md border border-gray-300 px-2 py-1"
+          name="moneda"
+          id="moneda"
+        >
+          {allDivisas.map((divisa) => (
+            <option
+              key={divisa.symbol}
+              value={divisa.symbol}
+              className="flex flex-row"
+            >
+              <img
+                src={divisa.flag}
+                alt={divisa.symbol}
+                className="mr-2 h-4 w-4"
+              />
+              {divisa.symbol}
+            </option>
+          ))}
+        </select>
       </div>
     </section>
   );

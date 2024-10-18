@@ -51,11 +51,11 @@ export default function EditDivisa() {
         <Link to={`/divisas`} className="text-blue-400">
           <p>Mis divisas</p>
         </Link>
-        <h2 className="text-2xl font-bold">{divisa.symbol}</h2>
-        <p></p>
+        <h2 className="ml-[-80px] text-2xl font-bold">{divisa.symbol}</h2>
+        <h2></h2>
       </div>
       <img
-        className="h-[100px] w-full object-contain"
+        className="h-[100px] w-full rounded-sm object-contain"
         src={`/${divisa?.flag}`}
         alt={`Bandera de ${divisa?.symbol}`}
       />
@@ -69,7 +69,7 @@ export default function EditDivisa() {
           <p>{divisa.symbol}</p>
         </div>
       </section> */}
-      <section className="bg-card flex w-full justify-around py-2">
+      <section className="flex w-full justify-around bg-card py-2">
         <button
           className={`flex w-full cursor-pointer flex-col items-center ${activeTab === "info" ? "border-b border-blue-500 text-blue-500" : "text-gray-500"}`}
           onClick={() => handleSelectTab("info")}
@@ -85,7 +85,7 @@ export default function EditDivisa() {
           <p className="text-xs">Historial</p>
         </button>
       </section>
-      <div className="item bg-card flex h-full w-full flex-col">
+      <div className="item flex h-full w-full flex-col bg-card">
         {renderContent()}
       </div>{" "}
     </section>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import oneFlag from "../../lib/jsons/oneFlag.json";
+import { addExchangeToHistory } from "@/lib/store/history";
 interface Divisa {
   id: number;
   symbol: string;
@@ -40,6 +41,10 @@ export default function NewDivisa() {
       id: allDivisas.length + 1,
       ...form,
     });
+    addExchangeToHistory(form.symbol, {
+      date: new Date().toISOString(),
+      value: parseFloat(form.valueInDollar),
+    });
     localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
   };
   return (
@@ -52,7 +57,7 @@ export default function NewDivisa() {
           <p></p>
         </div>
         <img
-          className="h-[140px] w-3/4"
+          className="w-3/4 sm:h-[140px] lg:h-[240px]"
           src={`/${form.flag}`}
           alt="bandera"
         ></img>

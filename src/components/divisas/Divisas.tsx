@@ -7,6 +7,7 @@ export default function Divisas() {
     symbol: string;
     valueInDollar: number;
     flag: string;
+    isEditing: boolean;
   }
   const [allDivisas, setAllDivisas] = React.useState([] as Divisa[]);
   React.useEffect(() => {
@@ -33,7 +34,7 @@ export default function Divisas() {
             <img src={divisa.flag} alt="" className="w-8" />
           </div>
           <Link
-            className="w-[50px] rounded-md border bg-gray-400 p-1 text-center text-[15px] text-white"
+            className={`w-[50px] rounded-md border bg-gray-400 p-1 text-center text-[15px] text-white ${divisa.isEditing ? "block" : "hidden"} `}
             to={`/divisas/edit/${divisa.symbol}`}
           >
             <p>→</p>
@@ -41,7 +42,7 @@ export default function Divisas() {
         </div>
       ))}
       <Link
-        className="fixed bottom-20 right-5 flex h-10 w-10 items-center justify-center rounded-xl border bg-blue-400 text-[30px] text-white"
+        className={`fixed bottom-20 right-5 flex h-10 w-10 items-center justify-center rounded-xl border bg-blue-400 text-[30px] text-white`}
         to={`/divisas/new`}
       >
         +
