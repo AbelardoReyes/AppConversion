@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import oneFlag from "../../lib/jsons/oneFlag.json";
 import { addExchangeToHistory } from "@/lib/store/history";
 interface Divisa {
@@ -9,22 +9,25 @@ interface Divisa {
   flag: string;
   isEditing: boolean;
   currencyPrincipal: boolean;
+  name: string;
 }
 interface banderas {
   id: number;
   flag: string;
 }
 export default function NewDivisa() {
+  const router = useNavigate();
   const [form, setForm] = useState({
     symbol: "",
     valueInDollar: "",
     flag: oneFlag.flag,
     currencyPrincipal: false,
     isEditing: true,
+    name: "",
   });
   useEffect(() => {
     //habilitar el boton cuando los campos esten llenos
-    if (form.symbol && form.valueInDollar) {
+    if (form.symbol && form.valueInDollar && form.name) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
@@ -50,6 +53,7 @@ export default function NewDivisa() {
       value: parseFloat(form.valueInDollar),
     });
     localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
+    router("/divisas");
   };
   return (
     <>
@@ -102,6 +106,24 @@ export default function NewDivisa() {
             <input
               name="valueInDollar"
               value={form.valueInDollar}
+              type="number"
+              className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
+              onChange={handleOnChange}
+            />
+            {/* <button
+              className="absolute right-5"
+              onClick={() => handleDisabled("value")}
+            >
+              ✍🏿
+            </button> */}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <h2>Nombre de la moneda</h2>
+          <div className="relative flex w-full items-center">
+            <input
+              name="name"
+              value={form.name}
               type="text"
               className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
               onChange={handleOnChange}

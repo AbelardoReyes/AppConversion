@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 
-export default function Home() {
+export default function Home(props: {handleSetHidden : () => void}) {
   interface Divisa {
     id: number;
     symbol: string;
@@ -23,6 +23,11 @@ export default function Home() {
 
   useEffect(() => {
     handleGetDivisas();
+    props.handleSetHidden();
+    const theme = JSON.parse(localStorage.getItem("theme") || "false");
+    if (theme) {
+      document.body.classList.add("dark");
+    }
   }, []);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {

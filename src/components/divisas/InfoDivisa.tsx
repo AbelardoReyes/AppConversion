@@ -1,20 +1,29 @@
 import { addExchangeToHistory } from "@/lib/store/history";
 import { useEffect, useState } from "react";
-import { Params, useParams } from "react-router-dom";
+import { Params, useNavigate, useParams } from "react-router-dom";
 interface Divisa {
   id: number;
   symbol: string;
   valueInDollar: number;
   flag: string;
+  isEditing: boolean;
+  currencyPrincipal: boolean;
+  name: string;
 }
 
 export default function InfoDivisa() {
   const [form, setForm] = useState({
     symbol: "",
     valueInDollar: "",
+    name: "",
+    id: 0,
+    flag: "",
+    isEditing: false,
+    currencyPrincipal: false,
   });
   const [disabledButton, setDisabledButton] = useState(true);
   const params = useParams<Params>();
+  const router = useNavigate();
   useEffect(() => {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
     const divisa = allDivisas.find(
@@ -24,6 +33,11 @@ export default function InfoDivisa() {
       setForm({
         symbol: divisa.symbol,
         valueInDollar: divisa.valueInDollar.toString(),
+        name: divisa.name,
+        id: divisa.id,
+        flag: divisa.flag,
+        isEditing: divisa.isEditing,
+        currencyPrincipal: divisa.currencyPrincipal,
       });
     }
   }, []);
@@ -51,10 +65,11 @@ export default function InfoDivisa() {
       value: parseFloat(form.valueInDollar),
     });
     localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
+    router(`/divisas`);
   };
 
   useEffect(() => {
-    if (form.symbol && form.valueInDollar) {
+    if (form.symbol && form.valueInDollar && form.name) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
@@ -71,6 +86,8 @@ export default function InfoDivisa() {
             type="text"
             className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
             onChange={handleOnChange}
+            disabled={!form.isEditing}
+
           />
           {/* <button
             className="absolute right-5"
@@ -89,6 +106,8 @@ export default function InfoDivisa() {
             type="number"
             className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
             onChange={handleOnChange}
+            disabled={!form.isEditing}
+
           />
           {/* <button
             className="absolute right-5"
@@ -98,12 +117,33 @@ export default function InfoDivisa() {
           </button> */}
         </div>
       </div>
-      <button
-        className={`mt-2 w-full rounded-xl bg-blue-500 p-2 text-white hover:bg-blue-600 ${disabledButton ? "opacity-70" : ""} `}
-        onClick={handleEditDivisa}
-      >
-        Guardar
-      </button>
+      <div className="flex flex-col">
+        <h2>Nombre de la moneda</h2>
+        <div className="relative flex w-full items-center">
+          <input
+            name="name"
+            value={form.name}
+            type="text"
+            className={`h-[44px] w-full rounded-xl border-2 bg-gray-400 p-2 focus:outline-none`}
+            onChange={handleOnChange}
+            disabled={!form.isEditing}
+          />
+          {/* <button
+            className="absolute right-5"
+            onClick={() => handleDisabled("value")}
+          >
+            ✍🏿
+          </button> */}
+        </div>
+      </div>
+      {form.isEditing ? (
+         <button
+         className={`mt-2 w-full rounded-xl bg-blue-500 p-2 text-white hover:bg-blue-600 ${disabledButton ? "opacity-70" : ""} `}
+         onClick={handleEditDivisa}
+       >
+         Guardar
+       </button>
+      ): (<></>)}
     </section>
   );
 }
