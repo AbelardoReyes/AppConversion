@@ -1,38 +1,66 @@
 [
-  {
-    "id": 1,
-    "symbol": "MXN",
-    "valueInDollar": 19,
-    "flag": "assets/banderas/Mexico.png"
-  },
+
   {
     "id": 2,
     "symbol": "USD",
     "valueInDollar": 1,
-    "flag": "assets/banderas/UnitedStates.png"
+    "flag": "assets/banderas/UnitedStates.png",
+    "isEditing": false,
+    "currencyPrincipal": true,
+    "name": "Dolar"
+  },
+  {
+    "id": 1,
+    "symbol": "MXN",
+    "valueInDollar": 19,
+    "flag": "assets/banderas/Mexico.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Peso Mexicano"
   },
   {
     "id": 3,
     "symbol": "EUR",
     "valueInDollar": 0.85,
-    "flag": "assets/banderas/FlagOfEurope.svg"
+    "flag": "assets/banderas/FlagOfEurope.svg",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Euro"
+  },
+  {
+    "id": 4,
+    "symbol": "GBP",
+    "valueInDollar": 0.72,
+    "flag": "assets/banderas/UnitedKingdom.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Libra Esterlina"
   },
   {
     "id": 5,
     "symbol": "JPY",
     "valueInDollar": 113.41,
-    "flag": "assets/banderas/Japan.png"
+    "flag": "assets/banderas/Japan.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Yen"
   },
   {
     "id": 6,
     "symbol": "CAD",
     "valueInDollar": 1.27,
-    "flag": "assets/banderas/Canada.png"
+    "flag": "assets/banderas/Canada.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Dolar Canadiense"
   },
   {
-    "id": 9,
+    "id": 7,
     "symbol": "ARS",
     "valueInDollar": 98.5,
-    "flag": "assets/banderas/Argentina.png"
+    "flag": "assets/banderas/Argentina.png",
+    "isEditing": true,
+    "currencyPrincipal": false,
+    "name": "Peso Argentino"
   }
 ]

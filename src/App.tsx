@@ -11,25 +11,24 @@ import allDivisasJson from "./lib/jsons/allDivisas.json";
 export default function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [hidden, setHidden] = useState(true);
+  const [path, setPath] = useState("");
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);
   };
   useEffect(() => {
     localStorage.setItem("allDivisas", JSON.stringify(allDivisasJson));
-    if (window.location.pathname === "/") {
-      setHidden(true);
-    } else {
-      setHidden(false);
-    }
   }, []);
 
+  const handleSetHidden = () => {
+    setHidden(false);
+  }
   return (
     <>
-      <div className="item relative flex h-screen w-full flex-col">
+      <div className="item relative flex h-screen w-full flex-col ">
         {/* {renderContent()} */}
         <Routes>
           <Route path="/" element={<Splash />} />
-          <Route path="/Home" element={<Home />} />
+          <Route path="/Home" element={<Home handleSetHidden={handleSetHidden} />} />
           <Route path="/divisas" element={<Divisas />} />
           <Route path="/divisas/new" element={<NewDivisa />} />
           <Route path="/divisas/edit/:divisa" element={<EditDivisa />} />

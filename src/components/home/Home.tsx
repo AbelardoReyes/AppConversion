@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 
-export default function Home() {
+export default function Home(props: { handleSetHidden: () => void }) {
   interface Divisa {
     id: number;
     symbol: string;
@@ -16,18 +16,18 @@ export default function Home() {
 
   const handleGetDivisas = () => {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
-    console.log("allDivisas obtenidas de localStorage:", allDivisas);
     setDivisas(allDivisas);
     setSelectedFrom(allDivisas[0]);
     setSelectedTo(allDivisas[1]);
   };
 
   useEffect(() => {
-    console.log(
-      "LocalStorage antes de obtener divisas:",
-      localStorage.getItem("allDivisas")
-    );
     handleGetDivisas();
+    props.handleSetHidden();
+    const theme = JSON.parse(localStorage.getItem("theme") || "false");
+    if (theme) {
+      document.body.classList.add("dark");
+    }
   }, []);
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,9 +61,9 @@ export default function Home() {
               {selectedFrom
                 ? `1 ${selectedFrom.symbol}`
                 : "Selecciona una moneda"}{" "}
-              ={/**limita las decimales */}
-              {selectedTo
-                ? ` ${(1 * selectedTo.valueInDollar).toFixed(2)} ${
+              =
+              {selectedFrom && selectedTo
+                ? ` ${(selectedTo.valueInDollar / selectedFrom.valueInDollar).toFixed(2)} ${
                   selectedTo.symbol
                 }`
                 : "Selecciona una moneda"}
@@ -137,7 +137,7 @@ export default function Home() {
           Generar ticket
         </button>
       </section>
-      <ExchangeChart />
+      <ExchangeChart currency={selectedFrom?.symbol ?? "MXN"} />
 
     </div>
   );
