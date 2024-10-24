@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
 
-export default function Home(props: {handleSetHidden : () => void}) {
+export default function Home(props: { handleSetHidden: () => void }) {
   interface Divisa {
     id: number;
     symbol: string;
@@ -56,19 +56,19 @@ export default function Home(props: {handleSetHidden : () => void}) {
 
       {divisas.length >= 2 ? (
         <>
-         <section className="flex flex-row items-center justify-center gap-5 text-[20px]">
-      <p>
-        {selectedFrom
-          ? `1 ${selectedFrom.symbol}`
-          : "Selecciona una moneda"}{" "}
-        =
-        {selectedFrom && selectedTo
-          ? ` ${(selectedTo.valueInDollar / selectedFrom.valueInDollar).toFixed(2)} ${
-              selectedTo.symbol
-            }`
-          : "Selecciona una moneda"}
-      </p>
-    </section>
+          <section className="flex flex-row items-center justify-center gap-5 text-[20px]">
+            <p>
+              {selectedFrom
+                ? `1 ${selectedFrom.symbol}`
+                : "Selecciona una moneda"}{" "}
+              =
+              {selectedFrom && selectedTo
+                ? ` ${(selectedTo.valueInDollar / selectedFrom.valueInDollar).toFixed(2)} ${
+                  selectedTo.symbol
+                }`
+                : "Selecciona una moneda"}
+            </p>
+          </section>
 
           <section className="flex h-[200px] flex-row items-center justify-between gap-3">
             <div className="flex h-full w-full flex-col items-center gap-3 px-3 shadow-xl">
@@ -137,7 +137,7 @@ export default function Home(props: {handleSetHidden : () => void}) {
           Generar ticket
         </button>
       </section>
-      <ExchangeChart />
+      <ExchangeChart currency={selectedFrom?.symbol ?? "MXN"} />
 
     </div>
   );
