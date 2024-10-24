@@ -11,7 +11,6 @@ export const GetExchangeRateAsync = async (baseCurrency: string, targetCurrency:
  }
     catch (error)
     {
-        console.error(error);
     }
 };
 
@@ -22,6 +21,5 @@ export const GetStantarCurrency = async (newCurrency: string) => {
         );
         return response;
     } catch (error) {
-        console.error(error);
     }
 };

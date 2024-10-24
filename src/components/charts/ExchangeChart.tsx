@@ -35,7 +35,6 @@ export default function ExchangeChart() {
         date: new Date().toISOString(),
         value: Math.random() * 100
       }).then(() => {
-        console.log("Added new exchange to history");
         getExchangeHistory("MXN").then((data) => {
           setChartData(data);
         });
