@@ -1,98 +1,66 @@
 [
-  {
-    "id": 1,
-    "name": "Peso Mexicano",
-    "symbol": "MXN",
-    "country": "México",
-    "valueInDolar": 19,
-    "flag": "src/assets/banderas/Mexico.png"
-  },
+
   {
     "id": 2,
-    "name": "Dólar Americano",
     "symbol": "USD",
-    "country": "Estados Unidos",
-    "valueInDolar": 1,
-    "flag": "src/assets/banderas/UnitedStates.png"
+    "valueInDollar": 1,
+    "flag": "assets/banderas/UnitedStates.png",
+    "isEditing": false,
+    "currencyPrincipal": true,
+    "name": "Dolar"
+  },
+  {
+    "id": 1,
+    "symbol": "MXN",
+    "valueInDollar": 19,
+    "flag": "assets/banderas/Mexico.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Peso Mexicano"
   },
   {
     "id": 3,
-    "name": "Euro",
     "symbol": "EUR",
-    "country": "Unión Europea",
-    "valueInDolar": 0.85,
-    "flag": "src/assets/banderas/Spain.png"
+    "valueInDollar": 0.85,
+    "flag": "assets/banderas/FlagOfEurope.svg",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Euro"
   },
   {
     "id": 4,
-    "name": "Libra Esterlina",
     "symbol": "GBP",
-    "country": "Reino Unido",
-    "valueInDolar": 0.72,
-    "flag": "src/assets/banderas/UnitedKingdom.png"
+    "valueInDollar": 0.72,
+    "flag": "assets/banderas/UnitedKingdom.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Libra Esterlina"
   },
   {
     "id": 5,
-    "name": "Yen Japonés",
     "symbol": "JPY",
-    "country": "Japón",
-    "valueInDolar": 113.41,
-    "flag": "src/assets/banderas/Japan.png"
+    "valueInDollar": 113.41,
+    "flag": "assets/banderas/Japan.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Yen"
   },
   {
     "id": 6,
-    "name": "Dólar Canadiense",
     "symbol": "CAD",
-    "country": "Canadá",
-    "valueInDolar": 1.27,
-    "flag": "src/assets/banderas/Canada.png"
+    "valueInDollar": 1.27,
+    "flag": "assets/banderas/Canada.png",
+    "isEditing": false,
+    "currencyPrincipal": false,
+    "name": "Dolar Canadiense"
   },
   {
     "id": 7,
-    "name": "Dólar Australiano",
-    "symbol": "AUD",
-    "country": "Australia",
-    "valueInDolar": 1.35,
-    "flag": "src/assets/banderas/Australia.png"
-  },
-  {
-    "id": 8,
-    "name": "Franco Suizo",
-    "symbol": "CHF",
-    "country": "Suiza",
-    "valueInDolar": 0.92,
-    "flag": "src/assets/banderas/Switzerland.png"
-  },
-  {
-    "id": 9,
-    "name": "Peso Argentino",
     "symbol": "ARS",
-    "country": "Argentina",
-    "valueInDolar": 98.5,
-    "flag": "src/assets/banderas/Argentina.png"
-  },
-  {
-    "id": 10,
-    "name": "Real Brasileño",
-    "symbol": "BRL",
-    "country": "Brasil",
-    "valueInDolar": 5.3,
-    "flag": "src/assets/banderas/Brazil.png"
-  },
-  {
-    "id": 11,
-    "name": "Peso Colombiano",
-    "symbol": "COP",
-    "country": "Colombia",
-    "valueInDolar": 3840,
-    "flag": "src/assets/banderas/Colombia.png"
-  },
-  {
-    "id": 12,
-    "name": "Peso Chileno",
-    "symbol": "CLP",
-    "country": "Chile",
-    "valueInDolar": 800,
-    "flag": "src/assets/banderas/Chile.png"
+    "valueInDollar": 98.5,
+    "flag": "assets/banderas/Argentina.png",
+    "isEditing": true,
+    "currencyPrincipal": false,
+    "name": "Peso Argentino"
   }
 ]
