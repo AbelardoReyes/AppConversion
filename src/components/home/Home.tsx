@@ -1,16 +1,20 @@
 import React, { useEffect } from "react";
 import ExchangeChart from "@/components/charts/ExchangeChart.tsx";
+import CurrencyExchangeTicket from "@/components/ticket/CurrencyExchangeTicket.tsx";
+
+export interface Divisa {
+  id: number;
+  symbol: string;
+  valueInDollar: number;
+  flag: string;
+}
 
 export default function Home(props: { handleSetHidden: () => void }) {
-  interface Divisa {
-    id: number;
-    symbol: string;
-    valueInDollar: number;
-    flag: string;
-  }
+
 
   const [divisas, setDivisas] = React.useState<Divisa[]>([]);
   const [result, setResult] = React.useState<number>(0);
+  const [amount, setAmount] = React.useState<number>(1);
   const [selectedFrom, setSelectedFrom] = React.useState<Divisa | null>(null);
   const [selectedTo, setSelectedTo] = React.useState<Divisa | null>(null);
 
@@ -32,6 +36,7 @@ export default function Home(props: { handleSetHidden: () => void }) {
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const montoEnPesos = Number(e.target.value);
+    setAmount(montoEnPesos);
     if (!selectedFrom || !selectedTo) return;
     const montoEnDolares = montoEnPesos / selectedFrom.valueInDollar;
     const montoConvertido = montoEnDolares * selectedTo.valueInDollar;
@@ -133,10 +138,13 @@ export default function Home(props: { handleSetHidden: () => void }) {
         <div className="flex flex-row items-center justify-between">
           <h1>Historial de cambio</h1>
         </div>
-        <button className="w-[150px] rounded-md bg-gray-200 p-2 text-blue-500">
-          Generar ticket
-        </button>
+        {selectedFrom && selectedTo && (
+          <CurrencyExchangeTicket trigger={<button className="w-[150px] rounded-md bg-gray-200 p-2 text-blue-500">
+            Generar ticket
+          </button>} fromAmount={amount} fromCurrency={selectedFrom} toCurrency={selectedTo} />
+        )}
       </section>
+
       <ExchangeChart currency={selectedFrom?.symbol ?? "MXN"} />
 
     </div>
