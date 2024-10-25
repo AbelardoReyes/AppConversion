@@ -21,22 +21,37 @@ export default defineConfig({
         display: "standalone",
         background_color: "#ffffff",
         theme_color: "#000000",
+        screenshots: [
+          {
+            src: "./screenshots/img_1.png",
+            sizes: "327x657",
+            form_factor: "narrow",
+            type: "image/png"
+          },
+          // desktop
+          {
+            src: "./screenshots/img_2.png",
+            sizes: "1196x655",
+            form_factor: "wide",
+            type: "image/png"
+          }
+        ],
         icons: [
           {
-            src: "/pwa-192x192.png",
-            sizes: "192x192",
+            src: "./icons/euro100x100.png",
+            sizes: "50x50",
             type: "image/png"
           },
           {
-            src: "/pwa-512x512.png",
+            src: "./icons/exchange-5-svgrepo-com.png",
             sizes: "512x512",
-            type: "image/png"
+            purpose: "any"
           }
         ]
       },
       // Cache all files in public directory
       workbox: {
-        
+
         globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"],
         // Configurar cache para imagenes
         runtimeCaching: [

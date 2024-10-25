@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import allDivisas from "../../lib/jsons/allDivisas.json";
 import { GetStantarCurrency } from "@/lib/services/currency";
+import { updateStoreBaseCurrency } from "@/lib/store/history.ts";
 
 interface Divisa {
   id: number;
@@ -72,6 +73,7 @@ export default function Ajustes() {
       return a.symbol.localeCompare(b.symbol);
     });
     localStorage.setItem("allDivisas", JSON.stringify(updatedDivisas));
+    await updateStoreBaseCurrency(currencyPrincipal?.symbol ?? "USD");
   };
   const handleChangeCurrency = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const DIVSALOCALSTORAGE = JSON.parse(localStorage.getItem("allDivisas") || "[]");

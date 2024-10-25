@@ -139,9 +139,7 @@ export default function Home(props: { handleSetHidden: () => void }) {
           <h1>Historial de cambio</h1>
         </div>
         {selectedFrom && selectedTo && (
-          <CurrencyExchangeTicket trigger={<button className="w-[150px] rounded-md bg-gray-200 p-2 text-blue-500">
-            Generar ticket
-          </button>} fromAmount={amount} fromCurrency={selectedFrom} toCurrency={selectedTo} />
+          <CurrencyExchangeTicket fromAmount={amount} fromCurrency={selectedFrom} toCurrency={selectedTo} />
         )}
       </section>
 
