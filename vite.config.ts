@@ -36,7 +36,26 @@ export default defineConfig({
       },
       // Cache all files in public directory
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"]
+        
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,jpg}"],
+        // Configurar cache para imagenes
+        runtimeCaching: [
+          {
+            urlPattern: /\.(png|jpg|jpeg|svg|gif|webp)$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "images-cache",
+              expiration: {
+                maxEntries: 50,  // Maximo de imagenes en cache
+                maxAgeSeconds: 30 * 24 * 60 * 60  // 30 dias de expifacion
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
+
       }
     })
   ],
