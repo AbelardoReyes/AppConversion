@@ -121,6 +121,8 @@ export async function updateStoreBaseCurrency(
   // Convert all rates in the store
   const updatedStore = convertStore(store, newBaseCurrency);
 
+  console.log(updatedStore);
+
   // Save the updated store
   saveStore(updatedStore);
 }

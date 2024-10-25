@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import allDivisas from "../../lib/jsons/allDivisas.json";
-import { GetExchangeRateAsync, GetStantarCurrency } from "@/lib/services/currency";
+import { GetStantarCurrency } from "@/lib/services/currency";
+import { updateStoreBaseCurrency } from "@/lib/store/history.ts";
 
 interface Divisa {
   id: number;
@@ -10,6 +11,7 @@ interface Divisa {
   isEditing: boolean;
   currencyPrincipal: boolean;
 }
+
 export default function Ajustes() {
   const [activeTab, setActiveTab] = React.useState(false);
   const [currencyPrincipal, setCurrencyPrincipal] = React.useState("");
@@ -42,7 +44,7 @@ export default function Ajustes() {
 
   const handleToDoCalculate = async (divisas: Divisa[]) => {
     const currencyPrincipal = divisas.find((divisa) => divisa.currencyPrincipal);
-    let NewValues =[];
+    let NewValues = [];
     if (currencyPrincipal) {
       try {
         const response = await GetStantarCurrency(currencyPrincipal.symbol);
@@ -50,28 +52,29 @@ export default function Ajustes() {
 
       } catch (error) {
       }
-    } 
-const updatedDivisas = divisas.map((divisa) => {
-  const newValue = NewValues[divisa.symbol];
-  if (newValue) {
-    return {
-      ...divisa,
-      valueInDollar: newValue,
-    };
-  }
-  return divisa;
-});
-updatedDivisas.sort((a, b) => {
-  if (a.currencyPrincipal) {
-    return -1;
-  }
-  if (b.currencyPrincipal) {
-    return 1;
-  }
-  return a.symbol.localeCompare(b.symbol);
-});
-localStorage.setItem("allDivisas", JSON.stringify(updatedDivisas));
-};
+    }
+    const updatedDivisas = divisas.map((divisa) => {
+      const newValue = NewValues[divisa.symbol];
+      if (newValue) {
+        return {
+          ...divisa,
+          valueInDollar: newValue
+        };
+      }
+      return divisa;
+    });
+    updatedDivisas.sort((a, b) => {
+      if (a.currencyPrincipal) {
+        return -1;
+      }
+      if (b.currencyPrincipal) {
+        return 1;
+      }
+      return a.symbol.localeCompare(b.symbol);
+    });
+    localStorage.setItem("allDivisas", JSON.stringify(updatedDivisas));
+    await updateStoreBaseCurrency(currencyPrincipal?.symbol ?? "USD");
+  };
   const handleChangeCurrency = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const DIVSALOCALSTORAGE = JSON.parse(localStorage.getItem("allDivisas") || "[]");
     let newDivisas = DIVSALOCALSTORAGE.map((divisa: any) => {
@@ -86,7 +89,7 @@ localStorage.setItem("allDivisas", JSON.stringify(updatedDivisas));
     handleToDoCalculate(newDivisas);
     // localStorage.setItem("allDivisas", JSON.stringify(newDivisas));
   };
-  
+
 
   return (
     <section className="flex flex-col gap-4 sm:p-4 lg:px-[150px]">
@@ -117,21 +120,21 @@ localStorage.setItem("allDivisas", JSON.stringify(updatedDivisas));
       <div className="flex flex-row items-center justify-between">
         <h4 className="text-lg">Moneda Base</h4>
         <select className="rounded-md border border-gray-300 px-2 py-1 text-black"
-  name="moneda"
-  id="moneda"
-  onChange={handleChangeCurrency}
->
-  {allDivisas.map((divisa) => (
-    <option
-      key={divisa.symbol}
-      value={divisa.symbol}
-      className="flex flex-row text-black"
-      selected={currencyPrincipal === divisa.symbol}
-    >
-      {divisa.symbol}
-    </option>
-  ))}
-</select>
+                name="moneda"
+                id="moneda"
+                onChange={handleChangeCurrency}
+        >
+          {allDivisas.map((divisa) => (
+            <option
+              key={divisa.symbol}
+              value={divisa.symbol}
+              className="flex flex-row text-black"
+              selected={currencyPrincipal === divisa.symbol}
+            >
+              {divisa.symbol}
+            </option>
+          ))}
+        </select>
       </div>
     </section>
   );
