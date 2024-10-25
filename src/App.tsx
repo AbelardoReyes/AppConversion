@@ -11,7 +11,6 @@ import allDivisasJson from "./lib/jsons/allDivisas.json";
 export default function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [hidden, setHidden] = useState(true);
-  const [path, setPath] = useState("");
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);
   };
@@ -21,7 +20,7 @@ export default function App() {
 
   const handleSetHidden = () => {
     setHidden(false);
-  }
+  };
   return (
     <>
       <div className="item relative flex h-screen w-full flex-col ">

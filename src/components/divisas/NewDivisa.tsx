@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import oneFlag from "../../lib/jsons/oneFlag.json";
 import { addExchangeToHistory } from "@/lib/store/history";
+
 interface Divisa {
   id: number;
   symbol: string;
@@ -11,10 +12,7 @@ interface Divisa {
   currencyPrincipal: boolean;
   name: string;
 }
-interface banderas {
-  id: number;
-  flag: string;
-}
+
 export default function NewDivisa() {
   const router = useNavigate();
   const [currencyPrincipal, setCurrencyPrincipal] = useState("");
@@ -24,7 +22,7 @@ export default function NewDivisa() {
     flag: oneFlag.flag,
     currencyPrincipal: false,
     isEditing: true,
-    name: "",
+    name: ""
   });
   useEffect(() => {
     //habilitar el boton cuando los campos esten llenos
@@ -39,14 +37,14 @@ export default function NewDivisa() {
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
   const handleGetCurrencyPrincipal = () => {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
     const divisa = allDivisas.find(
-      (divisa: Divisa) => divisa.currencyPrincipal,
+      (divisa: Divisa) => divisa.currencyPrincipal
     );
     if (divisa) {
       setCurrencyPrincipal(divisa.symbol);
@@ -56,11 +54,11 @@ export default function NewDivisa() {
     const allDivisas = JSON.parse(localStorage.getItem("allDivisas") || "[]");
     allDivisas.push({
       id: allDivisas.length + 1,
-      ...form,
+      ...form
     });
     addExchangeToHistory(form.symbol, {
       date: new Date().toISOString(),
-      value: parseFloat(form.valueInDollar),
+      value: parseFloat(form.valueInDollar)
     });
     localStorage.setItem("allDivisas", JSON.stringify(allDivisas));
     router("/divisas");
@@ -146,7 +144,7 @@ export default function NewDivisa() {
             </button> */}
           </div>
         </div>
-    
+
         <div className="flex flex-row items-center justify-between gap-4">
           <Link
             to={`/divisas`}
@@ -160,10 +158,10 @@ export default function NewDivisa() {
             disabled={disabledButton}
           >
             <p
-       
+
               className="w-full text-center text-white"
             >
-            Guardar
+              Guardar
             </p>
           </button>
         </div>
