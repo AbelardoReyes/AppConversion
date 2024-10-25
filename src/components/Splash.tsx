@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Router, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import OneFlag from "../lib/jsons/oneFlag.json";
 
 export default function Splash() {
